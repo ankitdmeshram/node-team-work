@@ -62,6 +62,25 @@ app.post("/api/signup", (req, res) => {
   }
 });
 
+app.get("/api/users", (req, res) => {
+  db.connect(function(err) {
+    db.query("SELECT * FROM users", function (err, result, fields) {
+      if (err) throw err;
+        res.send(result)
+    });
+  });
+})
+
+app.post("/api/deleteuser", (req, res) => {
+  db.connect(function(err) {
+    var sql = `DELETE FROM users WHERE id = ${req.body.id}`;
+    db.query(sql, function (err, result) {
+      if (err) throw err;
+      res.send({'messge': 'deleted successully'});
+    });
+  });
+})
+
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
